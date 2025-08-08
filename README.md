@@ -1,220 +1,107 @@
-Conversor de Moneda
+# 💱 Conversor de Moneda
 
-Pequeña app de consola en Java que convierte montos entre monedas usando HttpClient y Gson.
+![Java](https://img.shields.io/badge/Java-17-blue?logo=java)
+![Maven](https://img.shields.io/badge/Maven-3.9-orange?logo=apachemaven)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Finalizado-brightgreen)
 
-No requiere API key: consume el endpoint público de open.er-api.com.
+Conversor de monedas desarrollado en **Java 17** como parte del *Challenge ONE*.  
+Permite realizar conversiones entre distintas divisas en tiempo real utilizando la API pública de **ExchangeRate**.
 
+---
 
+## 📋 Características
 
-🚀 Demo rápida
+- Conversión entre monedas predefinidas:
+  - USD ↔ ARS
+  - USD ↔ BRL
+  - USD ↔ CLP
+  - USD ↔ COP
+- Opción de **conversión libre** mediante código ISO.
+- Obtención de tasas de cambio en tiempo real desde la API.
+- Interfaz por consola sencilla y fácil de usar.
+- Código modular y mantenible.
 
+---
+
+## 🛠️ Tecnologías utilizadas
+
+- **Java 17**
+- **Maven**
+- **Gson** para manejo de JSON
+- **HttpClient** (Java) para consumo de API REST
+- API: [ExchangeRate](https://open.er-api.com/)
+
+---
+
+## 🚀 Ejecución del proyecto
+
+### 1️⃣ Clonar el repositorio
+```bash
+git clone https://github.com/kennysolorzano/conversor-moneda.git
+cd conversor-moneda
+2️⃣ Compilar y empaquetar
 bash
-
 Copiar
-
 Editar
-
-mvn -U clean package
-
-\# PowerShell (Windows)
-
-mvn -q exec:java "-Dexec.mainClass=com.kenny.conversor.ConversorApp"
-
-\# macOS/Linux
-
-mvn -q exec:java -Dexec.mainClass=com.kenny.conversor.ConversorApp
-
-Salida de ejemplo:
-
-
-
+mvn clean package
+3️⃣ Ejecutar
 bash
-
 Copiar
-
 Editar
-
-GET https://open.er-api.com/v6/latest/USD
-
-1000.00 USD -> 1331080.00 ARS  (tasa: 1331.080000)
-
-🧱 Tecnologías
-
-Java SDK 24 (target de compilación --release 17)
-
-
-
-Maven 3.9+
-
-
-
-Gson 2.10.1
-
-
-
-Java HttpClient (Java 11+)
-
-
-
-📦 Estructura
-
+mvn exec:java -Dexec.mainClass=com.kenny.conversor.ConversorApp
+📦 Estructura del proyecto
 bash
-
 Copiar
-
 Editar
-
 conversor-moneda/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/com/kenny/conversor/
+│   │   │   ├── ConversorApp.java
+│   │   │   ├── Conversor.java
+│   │   │   ├── ExchangerateHostClient.java
+│   │   │   └── RateProvider.java
+│   └── test/  # (Opcional, si agregas pruebas)
+│
+├── pom.xml
+└── README.md
+📖 Uso
+Al iniciar, se mostrará un menú con opciones de conversión.
 
-├─ src/main/java/com/kenny/conversor/
+Selecciona la opción deseada.
 
-│  ├─ ConversorApp.java          # Menú en consola (Scanner)
+Ingresa el monto a convertir.
 
-│  ├─ ConverterService.java      # Lógica de conversión
+El sistema mostrará el resultado usando la tasa de cambio actual.
 
-│  ├─ HttpRateProvider.java      # Cliente HTTP + parseo JSON
+Ejemplo:
 
-│  └─ RateProvider.java          # Interfaz (permite mocks / otros providers)
-
-├─ pom.xml
-
-└─ .gitignore
-
-🔌 API utilizada (sin clave)
-
-GET https://open.er-api.com/v6/latest/{BASE}
-
-Respuesta JSON contiene conversion\_rates con las tasas respecto a {BASE}.
-
-
-
-Nota: el código también tolera respuestas en formato rates (compatibilidad).
-
-
-
-💡 ¿Qué hace?
-
-Muestra un menú con opciones rápidas (USD⇄ARS, USD⇄BRL, USD→CLP, USD→COP) y una conversión libre ingresando códigos ISO.
-
-
-
-Descarga las tasas (filtradas) y calcula: monto \* tasa.
-
-
-
-Monedas soportadas por defecto: USD, ARS, BOB, BRL, CLP, COP (puedes ampliarlo).
-
-
-
-⚙️ Requisitos
-
-Java 11+ (desarrollo sobre JDK 24)
-
-
-
-Maven 3.9+
-
-
-
-Internet (para obtener tasas)
-
-
-
-▶️ Cómo ejecutar
-
-Con Maven Exec (recomendado):
-
-
-
-bash
-
+markdown
 Copiar
-
 Editar
+******************************************************
+Sea bienvenido/a al Conversor de Moneda
 
-mvn -U clean package
+1) Dólar (USD)  => Peso argentino (ARS)
+2) Peso argentino (ARS) => Dólar (USD)
+...
 
-\# PowerShell
+Elija una opción válida:
+******************************************************
+1
+Monto: 1000
+GET https://open.er-api.com/v6/latest/USD
+1000.00 USD -> 1331080.00 ARS  (tasa: 1331.080000)
+📝 Mejoras futuras (Opcional)
+Historial de conversiones.
 
-mvn -q exec:java "-Dexec.mainClass=com.kenny.conversor.ConversorApp"
+Soporte para más monedas.
 
-\# macOS/Linux
+Registros con fecha y hora usando java.time.
 
-mvn -q exec:java -Dexec.mainClass=com.kenny.conversor.ConversorApp
+Interfaz gráfica en JavaFX o Swing.
 
-Desde IntelliJ IDEA:
-
-
-
-Open el proyecto (Maven se importa solo).
-
-
-
-File → Project Structure → Project SDK = JDK 24.
-
-
-
-Crear Run Configuration → Application
-
-Main class: com.kenny.conversor.ConversorApp → Run.
-
-
-
-PowerShell a veces “rompe” -D.... Si ves Unknown lifecycle phase, usa comillas como en el ejemplo o --%:
-
-mvn --% -q exec:java -Dexec.mainClass=com.kenny.conversor.ConversorApp
-
-
-
-🧪 Tests
-
-Aún no hay tests. Siguiente paso sugerido:
-
-
-
-FakeRateProvider para pruebas determinísticas.
-
-
-
-JUnit 5 para validar ConverterService.
-
-
-
-🛠️ Configuración y notas
-
-Proxy corporativo: si estás detrás de uno, crea C:\\Users\\<tu-usuario>\\.m2\\settings.xml con el bloque <proxies> de Maven.
-
-
-
-Endpoint alternativo sin clave (opcional):
-
-https://api.exchangerate.host/latest?base={BASE}\&symbols=USD,ARS,BOB,BRL,CLP,COP
-
-
-
-📈 Roadmap / Extras (opcional)
-
-Historial de conversiones (lista en memoria o archivo).
-
-
-
-Más monedas (extender set soportado).
-
-
-
-Registro con timestamps (java.time.Instant/LocalDateTime).
-
-
-
-Manejo de reintentos con backoff si la API tarda.
-
-
-
-Fat JAR ejecutable (maven-shade-plugin) para java -jar conversor.jar.
-
-
-
-📝 Licencia
-
-MIT
-
+📄 Licencia
+Este proyecto está bajo la licencia MIT.
